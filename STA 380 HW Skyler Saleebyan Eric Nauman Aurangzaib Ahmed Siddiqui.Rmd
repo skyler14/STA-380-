@@ -78,7 +78,6 @@ For this reason I'm subtracting it from the rent for an adjusted rent so we can 
 bd$AdjRent = bd$Rent-bd$cluster_rent
 print(summary(bd$size))
 print(summary(bd$cluster))
-print(summary(bd$Electricity_Costs))
 ```
 
 
@@ -154,7 +153,7 @@ In expensive neighborhoods house price fluctuate more, though we binned along an
 for (i in 1:12){
  plt <- ggplot(bd2[bd2['bin']==i,], aes(size,Rent)) +
   geom_point(aes(color =factor(green_rating)  )) +
-  geom_smooth(aes(group= factor(green_rating),color= factor(green_rating)))+
+  geom_smooth(aes(group= factor(green_rating),color= factor(green_rating)),method='lm')+
   scale_color_manual(breaks = c("0", "1"),
                         values=c("grey", "darkgreen"))+
     labs(title = "Rental Rate of Apartments by Size",subtitle = i ,rows=2) 
@@ -166,7 +165,7 @@ It seems that larger developments may actually suffer from lower rent rates, tho
 ```{r}
 ggplot(bd2[bd2['size']<1750000,], aes(size,Rent)) +
   geom_point(aes(color =factor(green_rating)  )) +
-  geom_smooth(aes(group= factor(green_rating),color= factor(green_rating)))+
+  geom_smooth(aes(group= factor(green_rating),color= factor(green_rating)),method='lm')+
   scale_color_manual(breaks = c("0", "1"),
                         values=c("darkgrey", "darkgreen"))+
   facet_wrap(~ renovated, labeller=label_both)
@@ -248,13 +247,13 @@ ggplot(bd2[bd2['size']<1750000,], aes(bin,leasing_rate*AdjRent/100)) +
   scale_color_manual(breaks = c("0", "1"),
                         values=c("darkgrey", "darkgreen"))+
   facet_grid(renovated ~ amenities,labeller = label_both )+
-  labs(title = "Leasing Rate of Apartments by Size",rows=2) 
+  labs(title = "Adjusted Rental Rate of Apartments by Size",rows=2) 
 ```
 
 ### These slight improvements in property performance fail to justify a 5% upfront investment, especially the larger and grander this development project becomes.
 
 
-Problem 2: ABIA
+# Problem 2: ABIA
 
 ```{r }
 rm(list=ls())
